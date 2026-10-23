@@ -46,6 +46,14 @@ export const App: React.FC = () => {
                   </ProtectedRoute>
                 }
               />
+              <Route
+                path="patients/register"
+                element={
+                  <ProtectedRoute allowedRoles={['Administrator']}>
+                    <PatientRegisterPage />
+                  </ProtectedRoute>
+                }
+              />
               <Route path="patients/:id" element={<PatientDetailPage />} />
               <Route path="temperatures" element={<TemperaturesPage />} />
               <Route path="doctor-rounds" element={<DoctorRoundsPage />} />

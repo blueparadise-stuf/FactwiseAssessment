@@ -2,7 +2,19 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
-import { Building2, Eye, EyeOff, Lock, Mail, ArrowRight, ShieldCheck, UserCheck, Activity } from 'lucide-react';
+import {
+  Building2,
+  Eye,
+  EyeOff,
+  Lock,
+  Mail,
+  ArrowRight,
+  ShieldCheck,
+  UserCheck,
+  Activity,
+  Stethoscope,
+  HeartPulse,
+} from 'lucide-react';
 
 export const LoginPage: React.FC = () => {
   const navigate = useNavigate();
@@ -18,27 +30,30 @@ export const LoginPage: React.FC = () => {
   const demoAccounts = [
     {
       role: 'Administrator',
-      name: 'Dr. Sunita Deshmukh',
+      name: 'Anu Singh',
       email: 'admin@arogyadesk.in',
       password: 'Admin@123',
-      badge: 'Full Institutional & Admission Control',
-      color: 'border-slate-300 bg-slate-50 hover:bg-slate-100 text-slate-900',
+      badge: 'Full Oversight & Admissions',
+      color: 'border-slate-200 hover:border-slate-800 bg-slate-50/80 hover:bg-slate-100',
+      activeColor: 'ring-2 ring-slate-900 border-slate-900',
     },
     {
       role: 'Doctor',
-      name: 'Dr. Arvind Patel, MD',
+      name: 'Dr. Rohan Varma, MD',
       email: 'doctor@arogyadesk.in',
       password: 'Doctor@123',
-      badge: 'Daily Rounds & Discharge Recommendations',
-      color: 'border-blue-200 bg-blue-50/70 hover:bg-blue-100 text-blue-900',
+      badge: 'Daily Rounds & Recommendations',
+      color: 'border-blue-200/80 hover:border-blue-600 bg-blue-50/50 hover:bg-blue-50',
+      activeColor: 'ring-2 ring-blue-600 border-blue-600',
     },
     {
       role: 'Nurse',
-      name: 'Sister Meena Nair, RN',
+      name: 'Pooja Sharma, RN',
       email: 'nurse@arogyadesk.in',
       password: 'Nurse@123',
-      badge: 'Temperature Logging & Vital Records',
-      color: 'border-emerald-200 bg-emerald-50/70 hover:bg-emerald-100 text-emerald-900',
+      badge: 'Morning Vitals & Care Queue',
+      color: 'border-emerald-200/80 hover:border-emerald-600 bg-emerald-50/50 hover:bg-emerald-50',
+      activeColor: 'ring-2 ring-emerald-600 border-emerald-600',
     },
   ];
 
@@ -57,7 +72,8 @@ export const LoginPage: React.FC = () => {
       toast.success('Authentication successful. Welcome to ArogyaDesk.');
       navigate('/dashboard');
     } catch (err: any) {
-      const msg = err.response?.data?.message || 'Invalid email or password. Please verify your credentials.';
+      const msg =
+        err.response?.data?.message || 'Invalid email or password. Please verify your credentials.';
       setErrorMessage(msg);
       toast.error(msg);
     } finally {
@@ -65,33 +81,42 @@ export const LoginPage: React.FC = () => {
     }
   };
 
-  const handleSelectDemoAccount = (demo: typeof demoAccounts[0]) => {
+  const handleSelectDemoAccount = (demo: (typeof demoAccounts)[0]) => {
     setEmail(demo.email);
     setPassword(demo.password);
     setErrorMessage('');
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-      {/* Background aesthetic glow */}
-      <div className="absolute top-0 -left-40 w-96 h-96 bg-blue-700/20 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 -right-40 w-96 h-96 bg-emerald-600/15 rounded-full blur-3xl pointer-events-none" />
+    <div className="min-h-screen bg-slate-950 flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden font-sans">
+      {/* Background ambient lighting */}
+      <div className="absolute -top-40 -left-40 w-[600px] h-[600px] bg-blue-600/15 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute -bottom-40 -right-40 w-[600px] h-[600px] bg-emerald-500/10 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-navy-900/40 rounded-full blur-[160px] pointer-events-none" />
 
+      {/* Brand Header */}
       <div className="sm:mx-auto sm:w-full sm:max-w-md relative z-10 text-center">
-        <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-blue-900 via-slate-900 to-emerald-600 text-white flex items-center justify-center mx-auto shadow-xl shadow-blue-950/40 mb-4 border border-slate-700/50">
-          <Activity className="w-8 h-8 text-emerald-400" />
+        <div className="w-16 h-16 rounded-3xl bg-gradient-to-tr from-slate-900 via-slate-950 to-blue-900 text-white flex items-center justify-center mx-auto shadow-2xl shadow-blue-950/60 mb-5 border border-slate-800/80 p-0.5">
+          <div className="w-full h-full rounded-[22px] bg-slate-900/90 flex items-center justify-center">
+            <Activity className="w-8 h-8 text-emerald-400" />
+          </div>
         </div>
-        <h2 className="text-3xl font-extrabold text-white tracking-tight">ArogyaDesk</h2>
-        <p className="mt-1 text-sm text-slate-400 font-medium">
-          Patient Care Management System
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900/90 border border-slate-800 text-slate-300 text-xs font-semibold mb-3">
+          <HeartPulse className="w-3.5 h-3.5 text-emerald-400" />
+          <span>Clinical Healthcare Platform</span>
+        </div>
+        <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight">ArogyaDesk</h2>
+        <p className="mt-1.5 text-sm text-slate-400 font-medium">
+          Patient Care & Inpatient Capacity System
         </p>
       </div>
 
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-xl relative z-10">
-        <div className="bg-white py-8 px-6 sm:px-10 rounded-3xl shadow-2xl border border-slate-200">
-          <form className="space-y-5" onSubmit={handleSubmit}>
+      {/* Main Form Card */}
+      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-lg relative z-10">
+        <div className="bg-white/95 backdrop-blur-xl py-9 px-6 sm:px-10 rounded-[32px] shadow-[0_20px_50px_rgba(0,0,0,0.35)] border border-white/40">
+          <form className="space-y-4" onSubmit={handleSubmit}>
             {errorMessage && (
-              <div className="p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-sm font-medium">
+              <div className="p-3.5 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 text-xs font-semibold leading-relaxed">
                 {errorMessage}
               </div>
             )}
@@ -110,15 +135,17 @@ export const LoginPage: React.FC = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="name@arogyadesk.in"
                   required
-                  className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-900/20 focus:border-slate-900 transition-colors"
+                  className="w-full pl-10 pr-4 py-3 bg-slate-50/80 border border-slate-200 rounded-2xl text-slate-900 text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-900/20 focus:border-slate-900 transition-all font-medium placeholder:text-slate-400"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
-                Password
-              </label>
+              <div className="flex items-center justify-between mb-1.5">
+                <label className="block text-xs font-bold uppercase tracking-wider text-slate-700">
+                  Access Password
+                </label>
+              </div>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                   <Lock className="w-4 h-4" />
@@ -129,12 +156,12 @@ export const LoginPage: React.FC = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••••••"
                   required
-                  className="w-full pl-10 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-900/20 focus:border-slate-900 transition-colors"
+                  className="w-full pl-10 pr-11 py-3 bg-slate-50/80 border border-slate-200 rounded-2xl text-slate-900 text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-900/20 focus:border-slate-900 transition-all font-medium"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600"
+                  className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-700"
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
@@ -144,49 +171,65 @@ export const LoginPage: React.FC = () => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full mt-2 py-3 px-4 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl shadow-lg shadow-slate-900/25 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+              className="w-full mt-2 py-3.5 px-4 bg-slate-900 hover:bg-slate-800 active:scale-[0.99] text-white font-bold rounded-2xl shadow-xl shadow-slate-900/20 transition-all flex items-center justify-center gap-2 disabled:opacity-50 text-sm cursor-pointer"
             >
               {isSubmitting ? (
                 <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
               ) : (
                 <>
-                  <span>Sign In to ArogyaDesk</span>
-                  <ArrowRight className="w-4 h-4" />
+                  <span>Sign In to Clinical Workspace</span>
+                  <ArrowRight className="w-4 h-4 text-emerald-400" />
                 </>
               )}
             </button>
           </form>
 
           {/* Quick Demo Access Bar */}
-          <div className="mt-8 pt-6 border-t border-slate-100">
-            <div className="flex items-center gap-2 mb-3">
-              <UserCheck className="w-4 h-4 text-emerald-600" />
-              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700">
-                Quick Role Logins (Click to Auto-Fill)
-              </h4>
+          <div className="mt-7 pt-6 border-t border-slate-100">
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-1.5 text-slate-700">
+                <UserCheck className="w-4 h-4 text-emerald-600" />
+                <h4 className="text-xs font-black uppercase tracking-wider">
+                  Select Staff Persona
+                </h4>
+              </div>
+              <span className="text-[10px] text-slate-400 font-medium">Click to fill</span>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-              {demoAccounts.map((demo) => (
-                <button
-                  key={demo.role}
-                  type="button"
-                  onClick={() => handleSelectDemoAccount(demo)}
-                  className={`text-left p-2.5 rounded-xl border transition-all text-xs ${demo.color}`}
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="font-bold">{demo.role}</span>
-                  </div>
-                  <p className="text-[11px] font-mono opacity-85 truncate mt-0.5">{demo.email}</p>
-                </button>
-              ))}
+            <div className="space-y-2">
+              {demoAccounts.map((demo) => {
+                const isSelected = email === demo.email;
+                return (
+                  <button
+                    key={demo.role}
+                    type="button"
+                    onClick={() => handleSelectDemoAccount(demo)}
+                    className={`w-full text-left p-3 rounded-2xl border transition-all cursor-pointer flex items-center justify-between ${
+                      isSelected ? demo.activeColor + ' bg-slate-50' : demo.color
+                    }`}
+                  >
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs font-black text-slate-900">{demo.name}</span>
+                        <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-slate-200/80 text-slate-700">
+                          {demo.role}
+                        </span>
+                      </div>
+                      <p className="text-[11px] text-slate-500 font-mono mt-0.5">{demo.email}</p>
+                    </div>
+                    <span className="text-[11px] font-mono font-bold text-slate-400">
+                      {demo.password}
+                    </span>
+                  </button>
+                );
+              })}
             </div>
           </div>
         </div>
 
         <div className="mt-6 text-center text-xs text-slate-400 flex items-center justify-center gap-2">
           <ShieldCheck className="w-4 h-4 text-emerald-400" />
-          <span>Institutional Healthcare Sandbox. Fictional demo patients for demonstration.</span>
+          <span>Hospital Operations Sandbox • Fictional Patient Demonstration</span>
         </div>
       </div>
     </div>

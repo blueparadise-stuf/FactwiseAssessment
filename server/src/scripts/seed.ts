@@ -41,7 +41,7 @@ export const seedDatabase = async () => {
   const passwordManager = await bcrypt.hash('Manager@123', salt);
 
   const admin = await User.create({
-    name: 'Dr. Sunita Deshmukh',
+    name: 'Anu Singh',
     email: 'admin@arogyadesk.in',
     passwordHash: passwordAdmin,
     role: 'Administrator',
@@ -49,7 +49,7 @@ export const seedDatabase = async () => {
   });
 
   const nurse = await User.create({
-    name: 'Sister Meena Nair, RN',
+    name: 'Pooja Sharma, RN',
     email: 'nurse@arogyadesk.in',
     passwordHash: passwordNurse,
     role: 'Nurse',
@@ -57,7 +57,7 @@ export const seedDatabase = async () => {
   });
 
   const doctor = await User.create({
-    name: 'Dr. Arvind Patel, MD',
+    name: 'Dr. Rohan Varma, MD',
     email: 'doctor@arogyadesk.in',
     passwordHash: passwordDoctor,
     role: 'Doctor',
