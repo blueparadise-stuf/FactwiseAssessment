@@ -69,12 +69,22 @@ export const createApp = () => {
   app.use('/api/v1/auth/login', authLimiter);
 
   // Auto-connect to database in serverless environment (e.g., Vercel)
-  app.use(async (_req, _res, next) => {
+  app.use(async (req, res, next) => {
+    // Skip database check for basic health check or root greeting
+    if (req.path === '/' || req.path === '/api/health') {
+      return next();
+    }
+
     if (mongoose.connection.readyState !== 1) {
       try {
         await connectDB();
-      } catch (err) {
-        console.error('Serverless database auto-connect error:', err);
+      } catch (err: any) {
+        console.error('Serverless database connection error:', err);
+        return res.status(503).json({
+          success: false,
+          message: 'Database connection failed. Please ensure your MongoDB Atlas IP Whitelist (Network Access) is set to 0.0.0.0/0 (allow access from anywhere).',
+          error: err.message || 'Database connection error',
+        });
       }
     }
     next();
