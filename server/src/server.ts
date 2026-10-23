@@ -31,4 +31,9 @@ const startServer = async () => {
   }
 };
 
-startServer();
+// Only start standalone server when not in Vercel / Lambda environment
+if (process.env.VERCEL !== '1' && !process.env.AWS_LAMBDA_FUNCTION_NAME) {
+  startServer();
+}
+
+export default app;

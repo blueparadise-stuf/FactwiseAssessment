@@ -70,7 +70,7 @@ export const createApp = () => {
 
   // Auto-connect to database in serverless environment (e.g., Vercel)
   app.use(async (_req, _res, next) => {
-    if (mongoose.connection.readyState === 0) {
+    if (mongoose.connection.readyState !== 1) {
       try {
         await connectDB();
       } catch (err) {
@@ -80,6 +80,21 @@ export const createApp = () => {
     next();
   });
 
+  // Root welcoming endpoint for verification
+  app.get('/', (_req, res) => {
+    res.status(200).json({
+      success: true,
+      service: 'ArogyaDesk Care API Server',
+      status: 'operational',
+      environment: ENV.NODE_ENV,
+      dbStatus: mongoose.connection.readyState === 1 ? 'connected' : 'connecting_or_disconnected',
+      endpoints: {
+        health: '/api/health',
+        apiV1: '/api/v1',
+      },
+    });
+  });
+
   // Health check endpoint for deployment monitoring
   app.get('/api/health', (_req, res) => {
     res.status(200).json({
@@ -87,6 +102,7 @@ export const createApp = () => {
       timestamp: new Date().toISOString(),
       uptime: process.uptime(),
       environment: ENV.NODE_ENV,
+      dbStatus: mongoose.connection.readyState === 1 ? 'connected' : 'connecting_or_disconnected',
     });
   });
 
